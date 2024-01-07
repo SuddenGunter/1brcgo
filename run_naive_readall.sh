@@ -2,4 +2,4 @@
 
 cp ./naive_readall/main.go ./main.go
 go build
-time ./1brcgo
+time GOGC=off ./1brcgo
