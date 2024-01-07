@@ -2,6 +2,8 @@
 
 [1 billion rows challenge](https://github.com/gunnarmorling/1brc) implemented in Go.
 
+Solution was tested on Hetzner CCX33 (8 vCPU/ 32 GB RAM). 
+
 ## Solutions
 
 ### Naive scanner
