@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	data := make(map[string]measurements, 1000000000)
+	data := make(map[string]measurements, 10000)
 	keys := make([]string, 0, 10000)
 	f, _ := os.OpenFile("measurements.txt", os.O_RDONLY, 0644)
 	scan := bufio.NewScanner(f)
