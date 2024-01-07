@@ -9,10 +9,8 @@ import (
 	"strconv"
 )
 
-const rows = 1000000000
-
 func main() {
-	data := make(map[string]measurements, rows)
+	data := make(map[string]measurements, 10000)
 	keys := make([]string, 0, 10000)
 	f, _ := os.ReadFile("measurements.txt")
 
@@ -20,16 +18,27 @@ func main() {
 
 	for lineEnd := bytes.IndexByte(f, '\n'); ; /*lineEnd != -1*/ lineEnd = bytes.IndexByte(f, '\n') {
 		i++
-		if i == rows {
+		if i == 1000000000 {
 			break
 		}
 
-		delim := bytes.IndexByte(f[lineEnd+1:], ';')
+		delim := bytes.IndexByte(f, ';')
 		city := string(f[:delim])
 
-		// todo: int instead of float, or try float32
-		temp, _ := strconv.ParseFloat(string(f[delim+1:lineEnd]), 64)
-
+		var temp float64
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Println("panic")
+					fmt.Println("i", i)
+					fmt.Println("lineEnd", lineEnd)
+					fmt.Println("delim", delim)
+					os.Exit(1)
+				}
+			}()
+			// todo: int instead of float, or try float32
+			temp, _ = strconv.ParseFloat(string(f[delim+1:lineEnd]), 64)
+		}()
 		if _, ok := data[city]; !ok {
 			data[city] = measurements{min: temp, max: temp, mean: temp, numMeasurements: 1}
 			keys = append(keys, city)

@@ -1,25 +1,44 @@
 package main
 
 import (
-	"bufio"
+	"bytes"
 	"fmt"
 	"math"
 	"os"
 	"sort"
 	"strconv"
-	"strings"
 )
 
 func main() {
 	data := make(map[string]measurements, 10000)
 	keys := make([]string, 0, 10000)
-	f, _ := os.OpenFile("measurements.txt", os.O_RDONLY, 0644)
-	scan := bufio.NewScanner(f)
-	for scan.Scan() {
-		l := strings.Split(scan.Text(), ";")
-		city := l[0]
-		temp, _ := strconv.ParseFloat(l[1], 64)
+	f, _ := os.ReadFile("measurements.txt")
 
+	i := 0
+
+	for lineEnd := bytes.IndexByte(f, '\n'); ; /*lineEnd != -1*/ lineEnd = bytes.IndexByte(f, '\n') {
+		i++
+		if i == 1000000000 {
+			break
+		}
+
+		delim := bytes.IndexByte(f, ';')
+		city := string(f[:delim])
+
+		var temp float64
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Println("panic")
+					fmt.Println("i", i)
+					fmt.Println("lineEnd", lineEnd)
+					fmt.Println("delim", delim)
+					os.Exit(1)
+				}
+			}()
+			// todo: int instead of float, or try float32
+			temp, _ = strconv.ParseFloat(string(f[delim+1:lineEnd]), 64)
+		}()
 		if _, ok := data[city]; !ok {
 			data[city] = measurements{min: temp, max: temp, mean: temp, numMeasurements: 1}
 			keys = append(keys, city)
@@ -31,6 +50,8 @@ func main() {
 			m.numMeasurements++
 			data[city] = m
 		}
+
+		f = f[lineEnd+1:]
 	}
 
 	sort.Strings(keys)
