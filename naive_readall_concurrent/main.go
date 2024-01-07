@@ -75,9 +75,8 @@ func main() {
 			break
 		}
 
-		start += lineEnd + 1
-
 		work <- pos{from: start, to: lineEnd}
+		start += lineEnd + 1
 
 		newSlice = newSlice[start:]
 	}
