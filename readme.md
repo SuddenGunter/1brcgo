@@ -29,3 +29,15 @@ real 1m41.246s
 user 1m30.234s
 sys	0m8.782s
 ```
+
+### TreeMap read all
+
+Similar to previous implementation, but with Go std map replaced by gods TreeMap.
+
+Slow.
+
+```sh
+real 4m44.531s
+user 4m36.655s
+sys	0m8.116s
+```
