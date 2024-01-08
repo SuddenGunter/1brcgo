@@ -86,7 +86,7 @@ func main() {
 		fmt.Println(pos{from: start, to: start + lineEnd})
 		start += lineEnd + 1
 
-		newSlice = newSlice[start:]
+		newSlice = newSlice[lineEnd+1:]
 	}
 
 	close(work)
