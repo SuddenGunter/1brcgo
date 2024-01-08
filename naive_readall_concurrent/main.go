@@ -71,6 +71,8 @@ func main() {
 		}()
 	}
 
+	fmt.Println("beginning", f[0:100])
+
 	newSlice := f
 	start := 0
 	for lineEnd := bytes.IndexByte(newSlice, '\n'); ; /*lineEnd != -1*/ lineEnd = bytes.IndexByte(newSlice, '\n') {
