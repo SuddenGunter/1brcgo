@@ -56,11 +56,11 @@ func main() {
 				line := f[w.from:w.to]
 
 				delim := bytes.IndexByte(line, ';')
-				if delim == -1 {
-					fmt.Println("delim == -1")
-					fmt.Println(string(line))
-					fmt.Println()
-				}
+				// if delim == -1 {
+				// 	fmt.Println("delim == -1")
+				// 	fmt.Println(string(line))
+				// 	fmt.Println()
+				// }
 				city := string(line[:delim])
 
 				// todo: int instead of float, or try float32
@@ -71,7 +71,7 @@ func main() {
 		}()
 	}
 
-	fmt.Println("beginning", string(f[0:100]))
+	// fmt.Println("beginning", string(f[0:100]))
 
 	newSlice := f
 	start := 0
@@ -83,7 +83,7 @@ func main() {
 		}
 
 		work <- pos{from: start, to: start + lineEnd}
-		fmt.Println(pos{from: start, to: start + lineEnd})
+		// fmt.Println(pos{from: start, to: start + lineEnd})
 		start += lineEnd + 1
 
 		newSlice = newSlice[lineEnd+1:]
