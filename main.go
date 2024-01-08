@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"runtime/pprof"
 	"sort"
 	"strconv"
 	"sync"
+	"time"
 )
 
 type pos struct {
@@ -20,6 +22,10 @@ type result struct {
 }
 
 func main() {
+	prof, _ := os.Create("profile.out")
+	pprof.WriteHeapProfile(prof)
+	prof.Close()
+	time.Sleep(10 * time.Second)
 	data := make(map[string]measurements, 10000)
 	keys := make([]string, 0, 10000)
 	f, _ := os.ReadFile("measurements.txt")
@@ -56,6 +62,11 @@ func main() {
 				line := f[w.from:w.to]
 
 				delim := bytes.IndexByte(line, ';')
+				// if delim == -1 {
+				// 	fmt.Println("delim == -1")
+				// 	fmt.Println(string(line))
+				// 	fmt.Println()
+				// }
 				city := string(line[:delim])
 
 				// todo: int instead of float, or try float32
@@ -66,6 +77,8 @@ func main() {
 		}()
 	}
 
+	// fmt.Println("beginning", string(f[0:100]))
+
 	newSlice := f
 	start := 0
 	for lineEnd := bytes.IndexByte(newSlice, '\n'); ; /*lineEnd != -1*/ lineEnd = bytes.IndexByte(newSlice, '\n') {
@@ -75,11 +88,11 @@ func main() {
 			break
 		}
 
+		work <- pos{from: start, to: start + lineEnd}
+		// fmt.Println(pos{from: start, to: start + lineEnd})
 		start += lineEnd + 1
 
-		work <- pos{from: start, to: lineEnd}
-
-		newSlice = newSlice[start:]
+		newSlice = newSlice[lineEnd+1:]
 	}
 
 	close(work)
