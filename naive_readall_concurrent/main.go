@@ -23,11 +23,13 @@ type result struct {
 
 func main() {
 	go func() {
-		prof, _ := os.Create("profile.out")
-		pprof.WriteHeapProfile(prof)
-		prof.Close()
+		for {
+			prof, _ := os.Create("profile.out")
+			pprof.WriteHeapProfile(prof)
+			prof.Close()
+			time.Sleep(10 * time.Second)
+		}
 	}()
-	time.Sleep(10 * time.Second)
 	data := make(map[string]measurements, 10000)
 	keys := make([]string, 0, 10000)
 	f, _ := os.ReadFile("measurements.txt")
