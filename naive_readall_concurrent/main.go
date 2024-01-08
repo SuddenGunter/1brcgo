@@ -76,7 +76,7 @@ func main() {
 		}
 
 		fmt.Println("start", start, "to", lineEnd)
-		work <- pos{from: start, to: lineEnd}
+		work <- pos{from: start, to: start + lineEnd}
 		start += lineEnd + 1
 
 		newSlice = newSlice[start:]
