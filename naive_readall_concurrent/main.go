@@ -75,6 +75,7 @@ func main() {
 			break
 		}
 
+		fmt.Println("start", start, "to", lineEnd)
 		work <- pos{from: start, to: lineEnd}
 		start += lineEnd + 1
 
