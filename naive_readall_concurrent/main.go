@@ -59,6 +59,7 @@ func main() {
 				if delim == -1 {
 					fmt.Println("delim == -1")
 					fmt.Println(string(line))
+					fmt.Println()
 				}
 				city := string(line[:delim])
 
@@ -80,6 +81,7 @@ func main() {
 		}
 
 		work <- pos{from: start, to: start + lineEnd}
+		fmt.Println(pos{from: start, to: start + lineEnd})
 		start += lineEnd + 1
 
 		newSlice = newSlice[start:]
