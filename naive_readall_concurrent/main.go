@@ -56,6 +56,10 @@ func main() {
 				line := f[w.from:w.to]
 
 				delim := bytes.IndexByte(line, ';')
+				if delim == -1 {
+					fmt.Println("delim == -1")
+					fmt.Println(string(line))
+				}
 				city := string(line[:delim])
 
 				// todo: int instead of float, or try float32
