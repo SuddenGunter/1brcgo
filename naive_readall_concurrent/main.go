@@ -71,7 +71,7 @@ func main() {
 		}()
 	}
 
-	fmt.Println("beginning", f[0:100])
+	fmt.Println("beginning", string(f[0:100]))
 
 	newSlice := f
 	start := 0
